@@ -213,8 +213,6 @@ Selecione o interpretador Python do ambiente virtual e execute todas as células
 - **pip / setuptools:** instalação do pacote Python.
 - **Git e GitHub:** versionamento e publicação do projeto.
 
-Os algoritmos numéricos e a leitura dos CSVs utilizam recursos da **biblioteca padrão do Python**. Não é necessário instalar NumPy ou Pandas para executar o pacote.
-
 ---
 
 # Documentação :book:
