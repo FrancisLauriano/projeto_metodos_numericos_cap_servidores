@@ -75,7 +75,6 @@ projeto_metodos_2gq/
 │   └── expansoes.csv
 │
 ├── doc/
-│   ├── Apresentacao_Capacidade_Servidores.pptx
 |   ├── problema3.pdf
 │   └── projetoGQ2.pdf
 │
