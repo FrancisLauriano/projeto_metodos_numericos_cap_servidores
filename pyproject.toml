@@ -7,14 +7,8 @@ name = "metodos-capacidade-servidores"
 version = "1.0.0"
 description = "Metodos numericos autorais para planejamento de capacidade de servidores"
 requires-python = ">=3.10"
-dependencies = [
-    "jupyter",
-    "notebook",
-    "ipykernel",
-    "numpy",
-    "pandas",
-    "matplotlib"
-]
+authors = [{name = "Grupo de Metodos Numericos"}]
+dependencies = []
 
 [project.optional-dependencies]
 notebook = ["jupyter>=1.0", "matplotlib>=3.7"]

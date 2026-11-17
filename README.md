@@ -1,236 +1,83 @@
-<h1 align="center">Métodos Numéricos — Planejamento de Capacidade de Servidores</h1>
+# Métodos Numéricos — Planejamento de Capacidade de Servidores
 
-<p align="center">
-  <img src="https://img.shields.io/static/v1?label=Python&message=3.10%2B&color=3776AB&style=for-the-badge&logo=python" alt="Python 3.10+"/>
-  <img src="https://img.shields.io/static/v1?label=Jupyter&message=Notebook&color=F37626&style=for-the-badge&logo=jupyter" alt="Jupyter Notebook"/>
-  <img src="https://img.shields.io/static/v1?label=Git&message=Versionamento&color=f05032&style=for-the-badge&logo=git" alt="Git"/>
-  <img src="https://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=yellow&style=for-the-badge" alt="Em desenvolvimento"/>
-</p>
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange)
 
-> **Status:** :warning: Em desenvolvimento — revisar nomes da equipe, resultados e execução antes da entrega.
+### Interpretação das primeiras e segundas diferenças
 
----
+Antes do ajuste, o notebook explica por que calcular as diferenças: a primeira diferença mede o acréscimo de armazenamento entre meses consecutivos; a segunda mede a mudança entre esses acréscimos. Por exemplo, os volumes dos meses 1, 2 e 3 são 137,99, 150,45 e 172,59 TB. Assim, as primeiras diferenças são 12,46 e 22,14 TB, e a segunda diferença é 22,14 − 12,46 = 9,68 TB.
 
-# Tópicos
+As primeiras diferenças revelam acréscimos variáveis com tendência de aumento; as segundas diferenças não são constantes. O grau 2 é uma hipótese simples de aproximação para a curvatura observada, não uma lei exata deduzida dos dados. O notebook apresenta a tabela e três gráficos antes de calcular os coeficientes por Mínimos Quadrados.
 
-:small_blue_diamond: [Contexto](#contexto-information_source)  
-:small_blue_diamond: [Problema](#problema-writing_hand)  
-:small_blue_diamond: [Objetivo](#objetivo-dart)  
-:small_blue_diamond: [Estrutura do Projeto](#estrutura-do-projeto-file_folder)  
-:small_blue_diamond: [Pré-requisitos](#pré-requisitos-warning)  
-:small_blue_diamond: [Instalação](#instalação-rocket)  
-:small_blue_diamond: [Como Rodar o Projeto](#como-rodar-o-projeto-computer)  
-:small_blue_diamond: [Tecnologias Utilizadas](#tecnologias-utilizadas-wrench)  
-:small_blue_diamond: [Documentação](#documentação-book)  
-:small_blue_diamond: [Desenvolvedores](#desenvolvedores-octocat)
+## Contexto
+Projeto da 2ª GQ de Métodos Numéricos, Ciência da Computação — UNICAP. **Problema 3:** planejar a capacidade de armazenamento a partir de 12 meses de dados.
 
----
+## Problema e objetivo
+A capacidade atual é **600 TB**. Os dados estão em `data/armazenamento.csv` e os planos em `data/expansoes.csv`. O projeto responde: (a) função de crescimento; (b) previsão para o mês 13; (c) primeiro mês acima de 600 TB; (d) primeiro mês acima de cada plano.
 
-# Contexto :information_source:
+## Justificativa do grau do polinômio
+Antes de escolher o grau, o notebook calcula as primeiras diferenças (acréscimos mensais) e as segundas diferenças, apresenta uma tabela e gera o gráfico `resultados/analise_diferencas.png`. Os acréscimos variam, mas tendem a aumentar: o primeiro é 12,46 TB e o último, 54,99 TB; a média dos cinco primeiros é 22,41 TB e a dos cinco últimos, 45,36 TB. As segundas diferenças **não são constantes**. Por isso, adotamos o grau 2 como hipótese simples de aproximação da tendência com curvatura, **não** como grau obrigatório ou matematicamente demonstrado. **Não há comparação com outros ajustes.**
 
-<p align="justify">
-Este projeto foi desenvolvido para a disciplina de <strong>Métodos Numéricos</strong>, do curso de <strong>Ciência da Computação da Universidade Católica de Pernambuco (UNICAP)</strong>, como atividade da <strong>2ª GQ</strong>. O trabalho aplica métodos numéricos à análise de dados históricos de armazenamento e ao planejamento de capacidade de servidores.
-</p>
+## Métodos numéricos utilizados
+**Aproximação polinomial quadrática pelo Método dos Mínimos Quadrados.** Os coeficientes `a0`, `a1` e `a2` são calculados por **Eliminação de Gauss com pivotamento parcial** sobre o sistema das equações normais. O notebook demonstra primeiro as três derivadas parciais da soma dos quadrados dos resíduos, reorganiza as equações normais e, em seguida, mostra a matriz, o vetor e os coeficientes explicitamente. Para verificar as capacidades, a função é avaliada diretamente nos meses inteiros. 
 
-<p align="justify">
-Os algoritmos numéricos foram implementados pelo grupo em um <strong>pacote Python instalável</strong>. O Jupyter Notebook importa as funções do pacote para realizar a análise, produzir gráficos e interpretar os resultados, sem conter a implementação dos métodos numéricos.
-</p>
-
----
-
-# Problema :writing_hand:
-
-<p align="justify">
-Uma infraestrutura de servidores registra o crescimento mensal do volume de armazenamento. Os dados históricos estão no arquivo <code>data/armazenamento.csv</code>, e as alternativas de expansão estão em <code>data/expansoes.csv</code>. A capacidade atual é de <strong>600 TB</strong>.
-</p>
-
-O problema solicita:
-
-1. Determinar e justificar uma função matemática que represente o crescimento do armazenamento.
-2. Estimar a demanda de armazenamento para o próximo mês.
-3. Identificar o primeiro mês em que a demanda estimada ultrapassa 600 TB.
-4. Identificar o primeiro mês em que a demanda estimada ultrapassa a capacidade de cada plano de expansão.
-
-As capacidades totais consideradas são **700 TB (plano A)**, **800 TB (plano B)** e **900 TB (plano C)**.
-
----
-
-# Objetivo :dart:
-
-<p align="justify">
-O objetivo é construir e avaliar um modelo matemático para o crescimento do armazenamento, estimar a demanda futura e determinar os meses em que diferentes limites de capacidade serão ultrapassados. A escolha dos métodos numéricos considera as necessidades específicas do problema, sem exigir a aplicação artificial de todos os métodos estudados na disciplina.
-</p>
-
-Também são discutidos os erros de ajuste, os critérios de parada dos algoritmos, a qualidade das previsões e as limitações da extrapolação.
-
----
-
-# Estrutura do Projeto :file_folder:
-
+## Estrutura do projeto
 ```text
 projeto_metodos_2gq/
-│
 ├── data/
 │   ├── armazenamento.csv
 │   └── expansoes.csv
-│
 ├── doc/
-|   ├── problema3.pdf
-│   └── projetoGQ2.pdf
-│
+│   ├── Apresentacao_Capacidade_Servidores.pdf
+│   ├── Apresentacao_Capacidade_Servidores.pptx
+│   └── ROTEIRO.md
 ├── notebooks/
 │   └── analise_capacidade.ipynb
-│
 ├── resultados/
-│   ├── ajuste_modelos.png
-│   ├── limites_capacidade.png
-│   ├── previsoes_capacidade.csv
-│   └── residuos_ajuste.png
-│
-├── src/
-│   └── metodos_capacidade/
-│       ├── __init__.py
-│       ├── dados.py
-│       ├── modelos.py
-│       ├── raizes.py
-│       └── sistemas.py
-│
-├── .gitignore
+│   ├── analise_diferencas.png
+│   ├── ajuste_quadratico.png
+│   └── previsoes_capacidade.csv
+├── src/metodos_capacidade/
+│   ├── __init__.py
+│   ├── dados.py
+│   ├── modelos.py
+│   └── sistemas.py
 ├── pyproject.toml
+├── .gitignore
 └── README.md
 ```
 
-O diretório `src/` contém os algoritmos e funções auxiliares; `notebooks/` contém a aplicação e a discussão dos resultados; `resultados/` guarda os arquivos gerados pela análise.
+## Pré-requisitos
+Python 3.10+, Git (para clonar o repositório) e VS Code com extensão Jupyter ou Jupyter Notebook.
 
----
-
-# Pré-requisitos :warning:
-
-Antes de clonar o repositório e executar o projeto, é necessário ter instalado:
-
-**1. Python 3.x:**
-  - Caso não tenha Python, instale: https://www.python.org/downloads/
-
-**2. Git:**
-  - Caso não tenha Git, instale: https://git-scm.com/install/
-
-**3. VS Code (ou outra IDE com suporte a Jupyter Notebook):**
-  - Caso não tenha VS Code, instale: https://code.visualstudio.com/download
-
----
-
-# Instalação :rocket:
-
-### 1️⃣ Clonar o repositório
-
+## Instalação
+Na pasta raiz do projeto:
 ```bash
-git clone https://github.com/FrancisLauriano/projeto_metodos_numericos_cap_servidores.git
+python -m venv .venv
 ```
-
----
-
-### 2️⃣ Entrar na pasta do projeto
-
+Ative o ambiente no Windows com `.venv\Scripts\activate` ou no Linux/macOS com `source .venv/bin/activate`.
 ```bash
-cd projeto_metodos_numericos_cap_servidores
+python -m pip install -e ".[notebook]"
 ```
 
----
+## Como executar
+Abra `notebooks/analise_capacidade.ipynb` no VS Code e selecione o ambiente Python instalado. Execute as células na ordem. Alternativamente, na raiz, execute `jupyter notebook` e abra o mesmo arquivo.
 
-### 3️⃣ Criar ambiente virtual
+## Resultados
+O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo `P(m) = a0 + a1*m + a2*m²`. Estima **576,62 TB** no mês 13 e prevê ultrapassagens em **14 (600 TB)**, **15 (700 TB)**, **17 (800 TB)** e **18 (900 TB)**.
 
-```bash
-python -m venv venv
-```
+## Documentação
+- [Notebook e justificativas](notebooks/analise_capacidade.ipynb)
+- [Apresentação em PDF](doc/Apresentacao_Capacidade_Servidores.pdf)
+- [Roteiro de apresentação](doc/ROTEIRO.md)
 
----
+## Referências
+- RUGGIERO, M. A. G.; LOPES, V. L. R. *Cálculo Numérico: Aspectos Teóricos e Computacionais*. 2. ed. Makron Books.
+- Slides da disciplina: Aula 11 (Eliminação de Gauss) e Aula 15 (Aproximação Polinomial — Mínimos Quadrados).
 
-### 4️⃣ Ativar mbiente virtual
-
-**Windows:**
-
-```bash
-venv\Scripts\activate
-```
-
-**Linux/Mac:**
-
-```bash
-source venv/bin/activate
-```
-
----
-
-### 5️⃣ Instalar o projeto e as dependências
-
-Com o ambiente virtual ativado:
-
-```bash
-python -m pip install --upgrade pip
-```
-
-```bash
-pip install -e .
-```
-
-O comando `pip install -e .` utiliza o arquivo `pyproject.toml` para instalar o pacote desenvolvido pelo grupo e todas as dependências necessárias ao projeto. 
-
----
-
-# Como Rodar o Projeto :computer:
-
-Com o ambiente virtual ativado e o pacote instalado, execute:
-
-```bash
-jupyter notebook
-```
-
-Depois, abra:
-
-```text
-notebooks/analise_capacidade.ipynb
-```
-
-O notebook utiliza as funções implementadas no pacote localizado em:
-
-```text
-src/metodos_capacidade/
-```
+## Desenvolvedores
+Preencher com os integrantes do grupo antes da entrega.
 
 
-Selecione o interpretador Python do ambiente virtual e execute todas as células (**Run All**). O notebook importa o pacote `metodos_capacidade`, lê os arquivos da pasta `data/` e gera os resultados na pasta `resultados/`.
+### Por que analisar as segundas diferenças?
 
-> **Atenção:** os métodos numéricos são implementados nos arquivos de `src/metodos_capacidade/`, e não nas células do notebook.
-
----
-
-# Tecnologias Utilizadas :wrench:
-
-- **Python:** implementação dos métodos e processamento dos dados.
-- **Jupyter Notebook:** execução e documentação da análise.
-- **Matplotlib:** visualização dos dados, ajustes e limites de capacidade.
-- **pip / setuptools:** instalação do pacote Python.
-- **Git e GitHub:** versionamento e publicação do projeto.
-
----
-
-# Documentação :book:
-
-A formulação matemática, as justificativas, os procedimentos e a análise estão disponíveis em:
-
-- [Notebook — Análise de Capacidade](notebooks/analise_capacidade.ipynb)
-- [Previsões em CSV](resultados/previsoes_capacidade.csv)
-
-O notebook inclui fundamentação teórica, comparação de modelos, critérios de parada, validação temporal, discussão dos resultados, limitações, conclusão e referências.
-
----
-
-
-# Desenvolvedores :octocat:
-
-Time responsável pelo desenvolvimento do projeto.
-
-| [<img src="https://github.com/Alexandre-MCS.png" width="115"><br><sub>Alexandre</sub>](https://github.com/Alexandre-MCS) | [<img src="https://github.com/Amanda-Aziz.png" width="115"><br><sub>Amanda Aziz</sub>](https://github.com/Amanda-Aziz) | [<img src="https://github.com/francisLauriano.png" width="115"><br><sub>Francis Lauriano</sub>](https://github.com/francisLauriano) | [<img src="https://github.com/lucascoffeedark.png" width="115"><br><sub>Lucas</sub>](https://github.com/lucascoffeedark) | [<img src="https://github.com/Sofiafs.png" width="115"><br><sub>Sofia Farias</sub>](https://github.com/Sofiafs) |
-| :---: | :---: | :---: | :---: | :---: |
-
----
+Para meses consecutivos, se $P(m)=a_0+a_1m+a_2m^2$, então $\Delta P(m)=a_1+2a_2m+a_2$ e $\Delta^2P(m)=2a_2$. Portanto, um polinômio quadrático exato tem segundas diferenças constantes. Nos dados históricos, elas oscilam; o ajuste quadrático representa uma tendência aproximada, não uma igualdade exata. A demonstração passo a passo está no notebook.

@@ -1,58 +1,37 @@
-"""Minimos quadrados polinomiais pelas equacoes normais e eliminacao de Gauss."""
-from math import sqrt
+"""Ajuste QUADRATICO por minimos quadrados; equacoes normais resolvidas por Gauss."""
 from .sistemas import eliminacao_gauss
 
 
-def ajustar_polinomio(x, y, grau):
-    if len(x) != len(y) or not x or grau < 0 or len(x) <= grau:
-        raise ValueError('Dados insuficientes ou grau invalido')
-    if len(set(x)) <= grau:
-        raise ValueError('Numero insuficiente de abscissas distintas')
-    # Escalonamento/centragem reduz as potencias e melhora a estabilidade numerica.
-    centro = sum(x) / len(x)
-    escala = max(abs(t - centro) for t in x)
-    if escala == 0:
-        raise ValueError('Abscissas identicas')
-    z = [(t - centro) / escala for t in x]
-    A = [[sum(t ** (i + j) for t in z) for j in range(grau + 1)] for i in range(grau + 1)]
-    b = [sum(valor * t ** i for t, valor in zip(z, y)) for i in range(grau + 1)]
-    coef = eliminacao_gauss(A, b)
-    return {'grau': grau, 'coeficientes': coef, 'centro': centro, 'escala': escala}
+def montar_equacoes_normais(meses, volumes):
+    """Retorna A e b do sistema A*[a0,a1,a2] = b."""
+    if len(meses) != len(volumes) or len(meses) < 3 or len(set(meses)) < 3:
+        raise ValueError("Sao necessarias pelo menos tres observacoes com meses distintos")
+    n = len(meses)
+    s1 = sum(meses)
+    s2 = sum(m**2 for m in meses)
+    s3 = sum(m**3 for m in meses)
+    s4 = sum(m**4 for m in meses)
+    A = [[n,s1,s2],[s1,s2,s3],[s2,s3,s4]]
+    b = [sum(volumes), sum(m*y for m,y in zip(meses,volumes)),
+         sum(m*m*y for m,y in zip(meses,volumes))]
+    return A,b
 
 
-def avaliar_polinomio(modelo, x):
-    z = (x - modelo['centro']) / modelo['escala']
-    valor = 0.0
-    for c in reversed(modelo['coeficientes']):
-        valor = valor * z + c
-    return valor
+def ajustar_quadratico(meses, volumes):
+    """Calcula a0,a1,a2 do polinomio a0+a1*m+a2*m**2."""
+    A,b = montar_equacoes_normais(meses,volumes)
+    return eliminacao_gauss(A,b)
 
 
-def coeficientes_em_x(modelo):
-    """Converte para coeficientes c0 + c1*x + ... (para exibicao)."""
-    from math import comb
-    c, s = modelo['centro'], modelo['escala']
-    coef = [0.0] * (modelo['grau'] + 1)
-    for k, ak in enumerate(modelo['coeficientes']):
-        for j in range(k + 1):
-            coef[j] += ak * comb(k, j) * (-c) ** (k - j) / s ** k
-    return coef
+def avaliar_polinomio(coeficientes, mes):
+    a0,a1,a2 = coeficientes
+    return a0 + a1*mes + a2*mes*mes
 
 
-def metricas_ajuste(modelo, x, y):
-    pred = [avaliar_polinomio(modelo, t) for t in x]
-    sq = sum((v - p) ** 2 for v, p in zip(y, pred))
-    media = sum(y) / len(y)
-    sst = sum((v - media) ** 2 for v in y)
-    return {'sse': sq, 'rmse': sqrt(sq / len(y)), 'r2': 1 - sq / sst if sst else float('nan')}
-
-
-def validacao_deixando_um_fora(x, y, grau):
-    """RMSE de validacao leave-one-out: cada ponto previsto sem ser usado no ajuste."""
-    erros = []
-    for i in range(len(x)):
-        xx = x[:i] + x[i + 1:]
-        yy = y[:i] + y[i + 1:]
-        m = ajustar_polinomio(xx, yy, grau)
-        erros.append((avaliar_polinomio(m, x[i]) - y[i]) ** 2)
-    return sqrt(sum(erros) / len(erros))
+def primeiro_mes_ultrapassagem(coeficientes, capacidade, ultimo_mes_observado, horizonte=120):
+    """Verificacao direta de meses inteiros; nao usa metodo de raizes."""
+    for mes in range(int(ultimo_mes_observado)+1, horizonte+1):
+        valor = avaliar_polinomio(coeficientes,mes)
+        if valor > capacidade:
+            return mes,valor
+    raise ValueError("Nao ocorreu ultrapassagem dentro do horizonte definido")
