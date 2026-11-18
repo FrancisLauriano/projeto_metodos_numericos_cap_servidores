@@ -120,7 +120,7 @@ O comando `pip install -e .` utiliza o arquivo `pyproject.toml` para instalar o 
 
 ---
 
-# Como Rodar o Projeto :computer:
+## Como Rodar o Projeto :computer:
 
 Com o ambiente virtual ativado e o pacote instalado, execute:
 
