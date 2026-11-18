@@ -47,7 +47,7 @@ projeto_metodos_2gq/
 
 ---
 
-# Pré-requisitos :warning:
+## Pré-requisitos :warning:
 
 Antes de clonar o repositório e executar o projeto, é necessário ter instalado:
 
@@ -62,7 +62,7 @@ Antes de clonar o repositório e executar o projeto, é necessário ter instalad
 
 ---
 
-# Instalação :rocket:
+## Instalação :rocket:
 
 ### 1️⃣ Clonar o repositório
 
@@ -144,7 +144,7 @@ As implementações dos métodos numéricos não deverão estar dentro do notebo
 
 ---
 
-# Tecnologias Utilizadas :wrench:
+## Tecnologias Utilizadas :wrench:
 
 - **Python**
 - **Jupyter Notebook**
