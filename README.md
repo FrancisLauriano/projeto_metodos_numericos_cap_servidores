@@ -22,40 +22,138 @@ projeto_metodos_2gq/
 │   ├── armazenamento.csv
 │   └── expansoes.csv
 ├── doc/
-│   ├── Apresentacao_Capacidade_Servidores.pdf
-│   ├── Apresentacao_Capacidade_Servidores.pptx
-│   └── ROTEIRO.md
+│   ├── problema3.pdf
+│   ├── projetoGQ2.pdf
+│   └── Apresentacao_Capacidade_Servidores.pptx
 ├── notebooks/
 │   └── analise_capacidade.ipynb
 ├── resultados/
-│   ├── analise_diferencas.png
+│   ├── ajuste_modelos.png
 │   ├── ajuste_quadratico.png
+│   ├── analise_diferencas.png
+│   ├── limites_capacidade.png
+│   ├── residuos_ajuste.png
 │   └── previsoes_capacidade.csv
 ├── src/metodos_capacidade/
 │   ├── __init__.py
 │   ├── dados.py
 │   ├── modelos.py
+│   ├── raizes.py
 │   └── sistemas.py
 ├── pyproject.toml
 ├── .gitignore
 └── README.md
 ```
 
-## Pré-requisitos
-Python 3.10+, Git (para clonar o repositório) e VS Code com extensão Jupyter ou Jupyter Notebook.
+---
 
-## Instalação
-Na pasta raiz do projeto:
+# Pré-requisitos :warning:
+
+Antes de clonar o repositório e executar o projeto, é necessário ter instalado:
+
+**1. Python 3.x:**
+  - Caso não tenha Python, instale: https://www.python.org/downloads/
+
+**2. Git:**
+  - Caso não tenha Git, instale: https://git-scm.com/install/
+
+**3. VS Code (ou outra IDE com suporte a Jupyter Notebook):**
+  - Caso não tenha VS Code, instale: https://code.visualstudio.com/download
+
+---
+
+# Instalação :rocket:
+
+### 1️⃣ Clonar o repositório
+
 ```bash
-python -m venv .venv
-```
-Ative o ambiente no Windows com `.venv\Scripts\activate` ou no Linux/macOS com `source .venv/bin/activate`.
-```bash
-python -m pip install -e ".[notebook]"
+git clone https://github.com/FrancisLauriano/projeto_metodos_numericos_cap_servidores.git
 ```
 
-## Como executar
-Abra `notebooks/analise_capacidade.ipynb` no VS Code e selecione o ambiente Python instalado. Execute as células na ordem. Alternativamente, na raiz, execute `jupyter notebook` e abra o mesmo arquivo.
+---
+
+### 2️⃣ Entrar na pasta do projeto
+
+```bash
+cd projeto_metodos_numericos_cap_servidores
+```
+
+---
+
+### 3️⃣ Criar ambiente virtual
+
+```bash
+python -m venv venv
+```
+
+---
+
+### 4️⃣ Ativar ambiente virtual
+
+**Windows:**
+
+```bash
+venv\Scripts\activate
+```
+
+**Linux/Mac:**
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 5️⃣ Instalar o projeto e as dependências
+
+Com o ambiente virtual ativado:
+
+```bash
+python -m pip install --upgrade pip
+```
+
+```bash
+pip install -e .
+```
+
+O comando `pip install -e .` utiliza o arquivo `pyproject.toml` para instalar o pacote desenvolvido pelo grupo e todas as dependências necessárias ao projeto. 
+
+---
+
+# Como Rodar o Projeto :computer:
+
+Com o ambiente virtual ativado e o pacote instalado, execute:
+
+```bash
+jupyter notebook
+```
+
+Depois, abra:
+
+```text
+notebooks/analise_capacidade.ipynb
+```
+
+O notebook utiliza as funções implementadas no pacote localizado em:
+
+```text
+src/metodos_capacidade/
+```
+
+As implementações dos métodos numéricos não deverão estar dentro do notebook.
+
+---
+
+# Tecnologias Utilizadas :wrench:
+
+- **Python**
+- **Jupyter Notebook**
+- **NumPy**
+- **Pandas**
+- **Matplotlib**
+- **pip**
+- **Git**
+- **GitHub**
 
 ## Resultados
 O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo `P(m) = a0 + a1*m + a2*m²`. Estima **576,62 TB** no mês 13 e prevê ultrapassagens em **14 (600 TB)**, **15 (700 TB)**, **17 (800 TB)** e **18 (900 TB)**.
@@ -63,7 +161,7 @@ O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo `P(m)
 ## Documentação
 - [Notebook e justificativas](notebooks/analise_capacidade.ipynb)
 - [Apresentação em PDF](doc/Apresentacao_Capacidade_Servidores.pdf)
-- [Roteiro de apresentação](doc/ROTEIRO.md)
+  
 
 ## Referências
 - RUGGIERO, M. A. G.; LOPES, V. L. R. *Cálculo Numérico: Aspectos Teóricos e Computacionais*. 2. ed. Makron Books.
