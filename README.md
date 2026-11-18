@@ -75,4 +75,3 @@ Time responsável pelo desenvolvimento do projeto.
 | [<img src="https://github.com/Alexandre-MCS.png" width="115"><br><sub>Alexandre</sub>](https://github.com/Alexandre-MCS) | [<img src="https://github.com/Amanda-Aziz.png" width="115"><br><sub>Amanda Aziz</sub>](https://github.com/Amanda-Aziz) | [<img src="https://github.com/francisLauriano.png" width="115"><br><sub>Francis Lauriano</sub>](https://github.com/francisLauriano) | [<img src="https://github.com/lucascoffeedark.png" width="115"><br><sub>Lucas</sub>](https://github.com/lucascoffeedark) | [<img src="https://github.com/Sofiafs.png" width="115"><br><sub>Sofia Farias</sub>](https://github.com/Sofiafs) |
 | :---: | :---: | :---: | :---: | :---: |
 
---- quadrático exato tem segundas diferenças constantes. Nos dados históricos, elas oscilam; o ajuste quadrático representa uma tendência aproximada, não uma igualdade exata. A demonstração passo a passo está no notebook.
