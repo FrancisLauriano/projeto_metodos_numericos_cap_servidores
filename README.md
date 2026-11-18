@@ -2,11 +2,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange)
 
-### Interpretação das primeiras e segundas diferenças
-
-Antes do ajuste, o notebook explica por que calcular as diferenças: a primeira diferença mede o acréscimo de armazenamento entre meses consecutivos; a segunda mede a mudança entre esses acréscimos. Por exemplo, os volumes dos meses 1, 2 e 3 são 137,99, 150,45 e 172,59 TB. Assim, as primeiras diferenças são 12,46 e 22,14 TB, e a segunda diferença é 22,14 − 12,46 = 9,68 TB.
-
-As primeiras diferenças revelam acréscimos variáveis com tendência de aumento; as segundas diferenças não são constantes. O grau 2 é uma hipótese simples de aproximação para a curvatura observada, não uma lei exata deduzida dos dados. O notebook apresenta a tabela e três gráficos antes de calcular os coeficientes por Mínimos Quadrados.
 
 ## Contexto
 Projeto da 2ª GQ de Métodos Numéricos, Ciência da Computação — UNICAP. **Problema 3:** planejar a capacidade de armazenamento a partir de 12 meses de dados.
@@ -75,9 +70,9 @@ O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo `P(m)
 - Slides da disciplina: Aula 11 (Eliminação de Gauss) e Aula 15 (Aproximação Polinomial — Mínimos Quadrados).
 
 ## Desenvolvedores
-Preencher com os integrantes do grupo antes da entrega.
+Time responsável pelo desenvolvimento do projeto.
 
+| [<img src="https://github.com/Alexandre-MCS.png" width="115"><br><sub>Alexandre</sub>](https://github.com/Alexandre-MCS) | [<img src="https://github.com/Amanda-Aziz.png" width="115"><br><sub>Amanda Aziz</sub>](https://github.com/Amanda-Aziz) | [<img src="https://github.com/francisLauriano.png" width="115"><br><sub>Francis Lauriano</sub>](https://github.com/francisLauriano) | [<img src="https://github.com/lucascoffeedark.png" width="115"><br><sub>Lucas</sub>](https://github.com/lucascoffeedark) | [<img src="https://github.com/Sofiafs.png" width="115"><br><sub>Sofia Farias</sub>](https://github.com/Sofiafs) |
+| :---: | :---: | :---: | :---: | :---: |
 
-### Por que analisar as segundas diferenças?
-
-Para meses consecutivos, se $P(m)=a_0+a_1m+a_2m^2$, então $\Delta P(m)=a_1+2a_2m+a_2$ e $\Delta^2P(m)=2a_2$. Portanto, um polinômio quadrático exato tem segundas diferenças constantes. Nos dados históricos, elas oscilam; o ajuste quadrático representa uma tendência aproximada, não uma igualdade exata. A demonstração passo a passo está no notebook.
+--- quadrático exato tem segundas diferenças constantes. Nos dados históricos, elas oscilam; o ajuste quadrático representa uma tendência aproximada, não uma igualdade exata. A demonstração passo a passo está no notebook.
