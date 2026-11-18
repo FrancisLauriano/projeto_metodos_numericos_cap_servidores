@@ -8,10 +8,10 @@ version = "1.0.0"
 description = "Metodos numericos autorais para planejamento de capacidade de servidores"
 requires-python = ">=3.10"
 authors = [{name = "Grupo de Metodos Numericos"}]
-dependencies = []
-
-[project.optional-dependencies]
-notebook = ["jupyter>=1.0", "matplotlib>=3.7"]
+dependencies = [
+    "jupyter>=1.0",
+    "matplotlib>=3.7",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

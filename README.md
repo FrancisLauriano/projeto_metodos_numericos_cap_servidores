@@ -10,35 +10,33 @@ Projeto da 2ª GQ de Métodos Numéricos, Ciência da Computação — UNICAP. *
 A capacidade atual é **600 TB**. Os dados estão em `data/armazenamento.csv` e os planos em `data/expansoes.csv`. O projeto responde: (a) função de crescimento; (b) previsão para o mês 13; (c) primeiro mês acima de 600 TB; (d) primeiro mês acima de cada plano.
 
 ## Justificativa do grau do polinômio
-Antes de escolher o grau, o notebook calcula as primeiras diferenças (acréscimos mensais) e as segundas diferenças, apresenta uma tabela e gera o gráfico `resultados/analise_diferencas.png`. Os acréscimos variam, mas tendem a aumentar: o primeiro é 12,46 TB e o último, 54,99 TB; a média dos cinco primeiros é 22,41 TB e a dos cinco últimos, 45,36 TB. As segundas diferenças **não são constantes**. Por isso, adotamos o grau 2 como hipótese simples de aproximação da tendência com curvatura, **não** como grau obrigatório ou matematicamente demonstrado. **Não há comparação com outros ajustes.**
+Antes de escolher o grau, o notebook calcula as primeiras diferenças (acréscimos mensais) e as segundas diferenças, apresenta uma tabela e gera o gráfico `resultados/analise_diferencas.png`. Os acréscimos variam, mas tendem a aumentar: o primeiro é 12,46 TB e o último, 54,99 TB; a média dos cinco primeiros é 22,41 TB e a dos cinco últimos, 45,36 TB. As segundas diferenças **não são constantes**. Por isso, adotamos o grau 2 como hipótese simples de aproximação da tendência com curvatura, **não** como grau obrigatório ou matematicamente demonstrado.
 
 ## Métodos numéricos utilizados
-**Aproximação polinomial quadrática pelo Método dos Mínimos Quadrados.** Os coeficientes `a0`, `a1` e `a2` são calculados por **Eliminação de Gauss com pivotamento parcial** sobre o sistema das equações normais. O notebook demonstra primeiro as três derivadas parciais da soma dos quadrados dos resíduos, reorganiza as equações normais e, em seguida, mostra a matriz, o vetor e os coeficientes explicitamente. Para verificar as capacidades, a função é avaliada diretamente nos meses inteiros. 
+**Aproximação polinomial quadrática pelo Método dos Mínimos Quadrados.** Os coeficientes `a0`, `a1` e `a2` são calculados por **Eliminação de Gauss com pivotamento parcial** sobre o sistema das equações normais. O notebook demonstra primeiro as três derivadas parciais da soma dos quadrados dos desvios, reorganiza as equações normais e, em seguida, mostra a matriz, o vetor e os coeficientes explicitamente. A qualidade do ajuste é avaliada pelos desvios `d = y − P(m)` de cada mês e pela soma dos quadrados dos desvios (`resultados/desvios_ajuste.png`). Para verificar as capacidades, a função é avaliada diretamente nos meses inteiros.
 
 ## Estrutura do projeto
 ```text
-projeto_metodos_2gq/
+projeto_metodos_numericos_cap_servidores/
 ├── data/
 │   ├── armazenamento.csv
 │   └── expansoes.csv
 ├── doc/
 │   ├── problema3.pdf
 │   ├── projetoGQ2.pdf
-│   └── Apresentacao_Capacidade_Servidores.pptx
+│   └── Apresentacao_Capacidade_Servidores.pdf
 ├── notebooks/
 │   └── analise_capacidade.ipynb
 ├── resultados/
-│   ├── ajuste_modelos.png
 │   ├── ajuste_quadratico.png
 │   ├── analise_diferencas.png
+│   ├── desvios_ajuste.png
 │   ├── limites_capacidade.png
-│   ├── residuos_ajuste.png
 │   └── previsoes_capacidade.csv
 ├── src/metodos_capacidade/
 │   ├── __init__.py
 │   ├── dados.py
 │   ├── modelos.py
-│   ├── raizes.py
 │   └── sistemas.py
 ├── pyproject.toml
 ├── .gitignore
@@ -140,7 +138,7 @@ O notebook utiliza as funções implementadas no pacote localizado em:
 src/metodos_capacidade/
 ```
 
-As implementações dos métodos numéricos não deverão estar dentro do notebook.
+As implementações dos métodos numéricos estão no pacote, não dentro do notebook.
 
 ---
 
@@ -148,15 +146,24 @@ As implementações dos métodos numéricos não deverão estar dentro do notebo
 
 - **Python**
 - **Jupyter Notebook**
-- **NumPy**
-- **Pandas**
 - **Matplotlib**
 - **pip**
 - **Git**
 - **GitHub**
 
 ## Resultados
-O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo `P(m) = a0 + a1*m + a2*m²`. Estima **576,62 TB** no mês 13 e prevê ultrapassagens em **14 (600 TB)**, **15 (700 TB)**, **17 (800 TB)** e **18 (900 TB)**.
+O notebook exibe a matriz do sistema, os **três coeficientes** e o modelo ajustado:
+
+`P(m) = 125,146 + 9,929·m + 1,908·m²`  (soma dos quadrados dos desvios = 75,60)
+
+| Item | Resposta |
+|:--|:--|
+| (a) | Função quadrática ajustada por Mínimos Quadrados (acima) |
+| (b) | **576,62 TB** no mês 13 |
+| (c) | A capacidade atual (600 TB) é ultrapassada no **mês 14** |
+| (d) | Plano A (700 TB): **mês 15**; Plano B (800 TB): **mês 17**; Plano C (900 TB): **mês 18** |
+
+Os meses são extrapolações do modelo e devem ser revistos com novos dados; o notebook discute a precisão e as limitações.
 
 ## Documentação
 - [Notebook e justificativas](notebooks/analise_capacidade.ipynb)
