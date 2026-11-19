@@ -167,7 +167,7 @@ Os meses são extrapolações do modelo e devem ser revistos com novos dados; o 
 
 ## Documentação
 - [Notebook e justificativas](notebooks/analise_capacidade.ipynb)
-- [Apresentação em PDF](doc/Apresentacao_Capacidade_Servidores.pptx)
+- [Apresentação em PPTX](doc/Apresentacao_Capacidade_Servidores.pptx)
   
 
 ## Referências
